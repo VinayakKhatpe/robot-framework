@@ -2,16 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Dependencies') {
+        stage('Setup Environment') {
             steps {
-                bat 'pip install robotframework robotframework-browser'
-                bat 'python -m Browser.entry init'
+                echo 'Dependencies already installed'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m robot -d results -i smoke tests/'
+                sh 'robot -d results -i smoke .'
             }
         }
     }
