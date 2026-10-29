@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'local-windows' }
 
     stages {
         stage('Setup Environment') {
@@ -10,7 +10,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'robot -d results -i smoke .'
+                bat 'python -m robot -d results -i smoke tests/'
             }
         }
     }
