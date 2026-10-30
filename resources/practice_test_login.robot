@@ -9,7 +9,7 @@ ${USERNAME}         student
 ${PASSWORD}         Password123
 ${login_message}     Logged In Successfully
 ${login_message_locator}    css=h1.post-title
-
+${login_page_title}    Practice Test Login Page
 
 
 *** Keywords ***
@@ -30,7 +30,7 @@ login to practicetestautomation
 Launch Browser And Login To practicetestautomation
     Open Browser To practicetestautomation
     login to practicetestautomation
-
+ 
 verify login page loads
     Wait For Elements State   ${login_message_locator}     visible    ${TIMEOUT}
     ${actual_message}=    Get Text    ${login_message_locator}
