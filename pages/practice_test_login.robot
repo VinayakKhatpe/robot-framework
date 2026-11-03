@@ -10,6 +10,9 @@ ${LOGIN_PASSWORD_INPUT}     id=password
 ${LOGIN_SUBMIT_BUTTON}      id=submit
 ${LOGIN_ERROR_MESSAGE}      id=error
 ${LOGIN_PAGE_PATH}          practicetestautomation.com/practice-test-login
+${TEST_LOGIN_USERNAME}    role=textbox[name="Username"]
+${TEST_LOGIN_PASSWORD}    role=textbox[name="Password"]
+${TEST_LOGIN_SUBMIT}    role=button[name="Submit"]
 
 *** Keywords ***
 Verify SmartBear Logo Is Visible
