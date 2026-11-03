@@ -21,7 +21,6 @@ ${invalid_password}    incorrectPassword
 ${wrong_case_username}    Student
 ${wrong_case_password}    password123
 
-
 *** Keywords ***
 Open Browser To practicetestautomation
     New Browser    ${BROWSER}    headless=false
@@ -124,3 +123,35 @@ Login Is Refused For Invalid Empty And Wrong Case Credentials
     Verify Login Is Refused With Error    ${password_error_message}
     # Opening the success page directly (result recorded, not asserted)
     Record Direct Access To Logged In Successfully Page
+
+Valid Student Logs In Sees The Success Page And Logs Out
+    [Documentation]    KAN-2 TC-1: Valid student logs in, sees the success page and logs out
+    # Open https://practicetestautomation.com/practice-test-login/
+    # Verify the page shows a Username field, a Password field and a "Submit" button
+    Wait For Elements State    ${TEST_LOGIN_USERNAME}    visible
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
+    Wait For Elements State    ${TEST_LOGIN_SUBMIT}    visible
+    # Type "student" into the Username field; verify the field shows "student"
+    Fill Text    ${TEST_LOGIN_USERNAME}    ${USERNAME}
+    Get Text    body    *=    {{username}}
+    # Type "Password123" into the Password field; verify the input is masked
+    Fill Secret    ${TEST_LOGIN_PASSWORD}    $PASSWORD
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
+    # Click "Submit"
+    Click    ${TEST_LOGIN_SUBMIT}
+    Get Text    body    *=    Logged In Successfully
+    # Verify the URL contains "/logged-in-successfully/"
+    Get Url    *=    /logged-in-successfully/
+    # Verify the page heading reads "Logged In Successfully"
+    Get Text    body    *=    Logged In Successfully
+    # Verify the page text contains "Congratulations student. You successfully logged in!"
+    Get Text    body    *=    Congratulations student. You successfully logged in!
+    # Verify a "Log out" button is visible
+    Wait For Elements State    ${LOGGED_IN_LOG_OUT_LINK}    visible
+    # Click "Log out"
+    Click    ${LOGGED_IN_LOG_OUT_LINK}
+    # Verify the browser returns to the login page (URL contains "/practice-test-login/") with empty Usern
+    Get Url    *=    /practice-test-login/
+    Wait For Elements State    ${TEST_LOGIN_USERNAME}    visible
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
+    Wait For Elements State    ${TEST_LOGIN_SUBMIT}    visible
