@@ -21,7 +21,6 @@ ${invalid_password}    incorrectPassword
 ${wrong_case_username}    Student
 ${wrong_case_password}    password123
 
-
 *** Keywords ***
 Open Browser To practicetestautomation
     New Browser    ${BROWSER}    headless=false
@@ -124,3 +123,39 @@ Login Is Refused For Invalid Empty And Wrong Case Credentials
     Verify Login Is Refused With Error    ${password_error_message}
     # Opening the success page directly (result recorded, not asserted)
     Record Direct Access To Logged In Successfully Page
+
+Student Logs In With Valid Credentials And Logs Out Again
+    [Documentation]    KAN-2 TC-1: Student logs in with valid credentials and logs out again
+    # Open https://practicetestautomation.com/practice-test-login/ in the browser
+    Get Url    *=    https://practicetestautomation.com/practice-test-login/
+    Wait For Elements State    ${TEST_LOGIN_USERNAME}    visible
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
+    Wait For Elements State    ${TEST_LOGIN_SUBMIT}    visible
+    # Verify the page shows the Username field, the Password field and the Submit button
+    Wait For Elements State    ${TEST_LOGIN_USERNAME}    visible
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
+    Wait For Elements State    ${TEST_LOGIN_SUBMIT}    visible
+    # Type "student" into the Username field and verify the field shows "student"
+    Fill Text    ${TEST_LOGIN_USERNAME}    ${USERNAME}
+    Get Text    body    *=    {{username}}
+    # Type "Password123" into the Password field and verify the entry is masked
+    Fill Secret    ${TEST_LOGIN_PASSWORD}    $PASSWORD
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
+    # Click Submit
+    Click    ${TEST_LOGIN_SUBMIT}
+    # Verify the browser URL contains practicetestautomation.com/logged-in-successfully/
+    Get Url    *=    practicetestautomation.com/logged-in-successfully/
+    # Verify the page shows the heading "Logged In Successfully"
+    Get Text    body    *=    Logged In Successfully
+    # Verify the page shows the text "Congratulations student. You successfully logged in!" (or at least c
+    Get Text    body    *=    Congratulations
+    Get Text    body    *=    successfully logged in
+    # Verify a "Log out" button is visible
+    Wait For Elements State    ${LOGGED_IN_LOG_OUT_LINK}    visible
+    Get Text    body    *=    Log out
+    # Click "Log out"
+    Click    ${LOGGED_IN_LOG_OUT_LINK}
+    # Verify the browser goes back to the login page and the Username and Password fields are shown again
+    Get Url    *=    practicetestautomation.com/practice-test-login/
+    Wait For Elements State    ${TEST_LOGIN_USERNAME}    visible
+    Wait For Elements State    ${TEST_LOGIN_PASSWORD}    visible
