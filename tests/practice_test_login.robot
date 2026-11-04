@@ -21,3 +21,7 @@ TC-2 Login Is Refused For Invalid Empty And Wrong Case Credentials
     [Tags]    KAN-2    TC-2    regression    negative    edge
     [Documentation]    KAN-2 TC-2: Invalid, empty and wrong-case credentials never log the user in. Each attempt stays on the login page with the matching error.
     Login Is Refused For Invalid Empty And Wrong Case Credentials
+
+TC-1 Student logs in with valid credentials and logs out again
+    [Tags]    KAN-2    TC-1    Smoke    Functional
+    Student Logs In With Valid Credentials And Logs Out Again
